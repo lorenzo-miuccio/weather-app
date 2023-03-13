@@ -1,8 +1,9 @@
 package com.example.weatherapp.ui
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import android.text.Selection.setSelection
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.example.weatherapp.model.WeatherFetchState
 import com.example.weatherapp.model.citiesList
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
+import java.net.URL
 import java.text.SimpleDateFormat
 
 
@@ -32,9 +34,6 @@ class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val myApplication = requireActivity().application as MyApplication
         WeatherViewModel.Factory(myApplication.weatherRepository)
     }
-
-    private var spinnerIndex = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +52,7 @@ class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter =
-            ArrayAdapter<City>(requireContext(), android.R.layout.simple_spinner_item, citiesList)
+            ArrayAdapter(requireContext(), R.layout.spinner_item, citiesList)
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     // Apply the adapter to the spinner
@@ -96,7 +95,7 @@ class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         }
 
-        binding.weather.refreshButton.setOnClickListener {
+        binding.refreshButton.setOnClickListener {
             viewModel.refreshWeather()
         }
     }
@@ -109,8 +108,12 @@ class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
             sunsetTime.text = format.format(weather.sunset.time)
             sunriseTime.text = format.format(weather.sunrise.time)
             humidity.text = "${weather.humidity} %"
+            //weatherImage.setImageBitmap(loadImageFromUrl(weather.iconPath))
         }
     }
+
+//    private fun loadImageFromUrl(url: String): Bitmap =
+//        BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         val selectedCity = parent.getItemAtPosition(position) as City

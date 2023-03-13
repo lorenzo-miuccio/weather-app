@@ -38,7 +38,6 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() 
         viewModelScope.launch {
             try {
                 _weatherFetchState.value = WeatherFetchState.Loading
-                val cityId = _selectedCity.value!!.id
                 val res = weatherRepo.getWeatherByCityId(_selectedCity.value!!.id)
 
                 _weatherFetchState.value = WeatherFetchState.Success(res)

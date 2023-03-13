@@ -8,11 +8,10 @@
 
     <Spinner
         android:id="@+id/city_selector"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="100dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,9 +20,8 @@
         android:id="@+id/weather_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="130dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city_selector"
         tools:src="@tools:sample/avatars"
@@ -34,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        style="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weather_image"
@@ -44,12 +43,11 @@
         android:id="@+id/sunset_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginBottom="40dp"
+        style="@style/FontDetails"
         android:drawablePadding="8dp"
-        app:drawableLeftCompat="@drawable/ic_sun"
+        app:drawableLeftCompat="@drawable/ic_sunset"
         app:layout_constraintBottom_toTopOf="@+id/humidity"
         app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
         tools:text="sunset_time" />
@@ -58,20 +56,22 @@
         android:id="@+id/humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
+        style="@style/FontDetails"
+        android:drawablePadding="8dp"
+        app:drawableLeftCompat="@drawable/ic_humidity"
         app:layout_constraintStart_toStartOf="@+id/sunset_time"
         app:layout_constraintTop_toTopOf="@+id/wind_speed"
         tools:text="humidity" />
 
     <TextView
         android:id="@+id/wind_speed"
+        style="@style/FontDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toTopOf="@+id/refreshButton"
+        android:drawablePadding="8dp"
+        app:drawableLeftCompat="@drawable/ic_wind"
+        android:layout_marginBottom="172dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/sunrise_time"
         tools:text="wind_speed" />
 
@@ -79,25 +79,13 @@
         android:id="@+id/sunrise_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
+        style="@style/FontDetails"
+        android:drawablePadding="8dp"
+        app:drawableLeftCompat="@drawable/ic_sunrise"
         android:layout_marginStart="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sunset_time"
-        tools:text="1" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_refresh"
-        android:contentDescription="refresh data" />
+        tools:text="sunset" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vertical_guideline"
@@ -106,5 +94,4 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5"
         />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
