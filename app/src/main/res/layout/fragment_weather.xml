@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/weather"
-        layout="@layout/weather"
+        layout="@layout/weather_data"
         android:visibility="gone" />
 
     <ProgressBar

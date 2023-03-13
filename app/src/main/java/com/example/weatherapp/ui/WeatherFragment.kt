@@ -1,29 +1,29 @@
 package com.example.weatherapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.WeatherFetchState
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 import java.text.DateFormat
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WeatherFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class WeatherFragment : Fragment() {
+class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentWeatherBinding
 
     private val viewModel: WeatherViewModel by viewModels { WeatherViewModel.Factory }
@@ -44,6 +44,19 @@ class WeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.cities_name,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            binding.weather.citySelector.adapter = adapter
+        }
+
+        binding.weather.citySelector.onItemSelectedListener = this
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -78,11 +91,20 @@ class WeatherFragment : Fragment() {
     private fun bindWeatherDataViews(weather: Weather) {
         binding.weather.apply {
             temperature.text = "${weather.temperature} °C"
-            windSpeed.text = "${weather.windSpeed} km/h"
+            windSpeed.text = "${String.format("%.2f", weather.windSpeed)} km/h"
             val format = SimpleDateFormat("HH:mm")
             sunsetTime.text = format.format(weather.sunset.time)
             sunriseTime.text = format.format(weather.sunrise.time)
             humidity.text = "${weather.humidity} %"
         }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        val cityName = parent.getItemAtPosition(position) as String
+
+        viewModel.updateSelectedCity(cityName)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 }

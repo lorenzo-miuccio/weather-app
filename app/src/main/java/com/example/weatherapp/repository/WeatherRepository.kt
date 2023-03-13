@@ -1,13 +1,30 @@
 package com.example.weatherapp.repository
 
+import com.example.weatherapp.datasource.CityKeyValueDatasource
 import com.example.weatherapp.datasource.WeatherApiService
 import com.example.weatherapp.datasource.apiresponse.WeatherApiResp
+import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
+import com.example.weatherapp.model.citiesList
 import java.util.*
 
-class WeatherRepository(private val api: WeatherApiService) {
+class WeatherRepository(private val api: WeatherApiService, private val keyValueDatasource: CityKeyValueDatasource) {
     suspend fun getWeatherByCityId(cityId: String): Weather =
         api.getWeatherByCityId(cityId).toEntity()
+
+    fun setSelectedCity(city: City) {
+        keyValueDatasource.setSelectedCity(city.id)
+    }
+
+    fun getSelectedCity(): City {
+        val cityId = keyValueDatasource.getSelectedCity()
+
+        val selectedCity = citiesList.firstOrNull {
+            it.id == cityId
+        }
+
+        return selectedCity ?: citiesList[0]
+    }
 }
 
 private fun WeatherApiResp.toEntity(): Weather {

@@ -23,8 +23,10 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() 
         refreshWeather()
     }
 
-    fun updateSelectedCity(newCity: City) {
-        _selectedCity.value = newCity
+    fun updateSelectedCity(cityName: String) {
+        _selectedCity.value = citiesList.first {
+            it.name == cityName
+        }
         refreshWeather()
     }
 
@@ -41,11 +43,9 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() 
         }
     }
 
-    companion object {
-        val Factory = object: ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return WeatherViewModel(WeatherRepository(WeatherApi.retrofitService)) as T
-            }
+    class Factory(private val weatherRepo: WeatherRepository): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return WeatherViewModel(weatherRepo) as T
         }
     }
 }
