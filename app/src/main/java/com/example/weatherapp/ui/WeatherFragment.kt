@@ -6,9 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.weatherapp.databinding.FragmentWeatherBinding
+import com.example.weatherapp.model.Weather
+import com.example.weatherapp.model.WeatherFetchState
 import com.example.weatherapp.viewmodel.WeatherViewModel
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 
 /**
@@ -37,6 +44,45 @@ class WeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.weatherFetchState.collect { fetchState ->
+                    when (fetchState) {
+                        is WeatherFetchState.Loading -> {
+                            binding.progressIndicator.visibility = View.VISIBLE
+                            binding.weather.weatherData.visibility = View.GONE
+                            binding.error.visibility = View.GONE
+                        }
+                        is WeatherFetchState.Success -> {
+                            binding.progressIndicator.visibility = View.GONE
+                            binding.weather.weatherData.visibility = View.VISIBLE
+                            binding.error.visibility = View.GONE
+                            bindWeatherDataViews(fetchState.weather)
+                        }
+                        is WeatherFetchState.Error -> {
+                            binding.progressIndicator.visibility = View.GONE
+                            binding.weather.weatherData.visibility = View.GONE
+                            binding.error.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+
+        binding.weather.refreshButton.setOnClickListener {
+            viewModel.refreshWeather()
+        }
     }
 
+    private fun bindWeatherDataViews(weather: Weather) {
+        binding.weather.apply {
+            temperature.text = "${weather.temperature} °C"
+            windSpeed.text = "${weather.windSpeed} km/h"
+            val format = SimpleDateFormat("HH:mm")
+            sunsetTime.text = format.format(weather.sunset.time)
+            sunriseTime.text = format.format(weather.sunrise.time)
+            humidity.text = "${weather.humidity} %"
+        }
+    }
 }

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/weather_data">
 
     <Spinner
         android:id="@+id/city_selector"
@@ -36,21 +37,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weather_image"
-        tools:text="23 °C"/>
+        tools:text="Temperature"/>
 
 
     <TextView
-        android:id="@+id/sunnset_time"
+        android:id="@+id/sunset_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="36dp"
+        android:drawablePadding="8dp"
+        app:drawableLeftCompat="@drawable/ic_sun"
         app:layout_constraintBottom_toTopOf="@+id/humidity"
         app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
-        tools:text="jdjwnjcnwjncjwnc"
-        app:drawableLeftCompat="@drawable/ic_refresh" />
+        tools:text="sunset_time" />
 
     <TextView
         android:id="@+id/humidity"
@@ -58,20 +60,20 @@
         android:layout_height="16dp"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        app:layout_constraintStart_toStartOf="@+id/sunnset_time"
-        app:layout_constraintTop_toTopOf="@+id/wind_velocity"
-        tools:text="1" />
+        app:layout_constraintStart_toStartOf="@+id/sunset_time"
+        app:layout_constraintTop_toTopOf="@+id/wind_speed"
+        tools:text="humidity" />
 
     <TextView
-        android:id="@+id/wind_velocity"
+        android:id="@+id/wind_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
         android:layout_marginBottom="56dp"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+        app:layout_constraintBottom_toTopOf="@+id/refreshButton"
         app:layout_constraintStart_toStartOf="@+id/sunrise_time"
-        tools:text="1saojnj" />
+        tools:text="wind_speed" />
 
     <TextView
         android:id="@+id/sunrise_time"
@@ -79,13 +81,13 @@
         android:layout_height="wrap_content"
         android:layout_rowWeight="1"
         android:layout_columnWeight="1"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sunnset_time"
+        app:layout_constraintTop_toTopOf="@+id/sunset_time"
         tools:text="1" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"

@@ -8,13 +8,21 @@
     <include
         android:id="@+id/weather"
         layout="@layout/weather"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_indicator"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:text="Error" />
 
 
 </FrameLayout>

@@ -1,11 +1,6 @@
 package com.example.weatherapp.viewmodel
 
-import android.app.Application
-import android.text.Editable.Factory
 import androidx.lifecycle.*
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.weatherapp.datasource.WeatherApi
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.WeatherFetchState
