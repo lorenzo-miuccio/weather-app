@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() {
-    private val _selectedCity: MutableLiveData<City> = MutableLiveData(citiesList[0])
+
+    private val _selectedCity: MutableLiveData<City> = MutableLiveData()
     val selectedCity: LiveData<City>
     get() = _selectedCity
 
@@ -20,13 +21,16 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() 
     get() = _weatherFetchState
 
     init {
+        _selectedCity.value = weatherRepo.getSelectedCity()
+
         refreshWeather()
     }
 
-    fun updateSelectedCity(cityName: String) {
-        _selectedCity.value = citiesList.first {
-            it.name == cityName
-        }
+    fun updateSelectedCity(newCity: City) {
+
+        weatherRepo.setSelectedCity(newCity)
+        _selectedCity.value = weatherRepo.getSelectedCity()
+
         refreshWeather()
     }
 
@@ -34,6 +38,7 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() 
         viewModelScope.launch {
             try {
                 _weatherFetchState.value = WeatherFetchState.Loading
+                val cityId = _selectedCity.value!!.id
                 val res = weatherRepo.getWeatherByCityId(_selectedCity.value!!.id)
 
                 _weatherFetchState.value = WeatherFetchState.Success(res)

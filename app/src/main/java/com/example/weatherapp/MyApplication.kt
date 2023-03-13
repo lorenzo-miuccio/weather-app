@@ -8,7 +8,8 @@ import com.example.weatherapp.repository.WeatherRepository
 private const val PREFS_NAME = "selected_city"
 
 class MyApplication : Application() {
-    private lateinit var weatherRepository: WeatherRepository
+    lateinit var weatherRepository: WeatherRepository
+    private set
 
     override fun onCreate() {
         super.onCreate()
