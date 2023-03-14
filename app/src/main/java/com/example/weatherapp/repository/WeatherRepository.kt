@@ -1,7 +1,8 @@
 package com.example.weatherapp.repository
 
 import com.example.weatherapp.datasource.CityKeyValueDatasource
-import com.example.weatherapp.datasource.WeatherApiService
+import com.example.weatherapp.datasource.database.WeatherLocalDatasource
+import com.example.weatherapp.datasource.remote.WeatherRemoteDatasource
 import com.example.weatherapp.datasource.remote.apiresponse.WeatherApiResp
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
@@ -9,11 +10,12 @@ import com.example.weatherapp.model.citiesList
 import java.util.*
 
 class WeatherRepository(
-    private val api: WeatherApiService,
+    private val weatherRemoteDatasource: WeatherRemoteDatasource,
+    private val weatherLocalDatasource: WeatherLocalDatasource,
     private val keyValueDatasource: CityKeyValueDatasource
 ) {
     suspend fun getWeather(): Weather =
-        api.getWeatherByCityId(getSelectedCity().id).toEntity()
+        weatherRemoteDatasource.getWeatherByCityId(getSelectedCity().id).toEntity()
 
     fun setSelectedCity(city: City) {
         keyValueDatasource.setSelectedCity(city.id)
