@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,10 +29,7 @@ import java.text.SimpleDateFormat
 class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentWeatherBinding
 
-    private val viewModel: WeatherViewModel by viewModels {
-        val myApplication = requireActivity().application as MyApplication
-        WeatherViewModel.Factory(myApplication.weatherRepository)
-    }
+    private val viewModel: WeatherViewModel by activityViewModels { WeatherViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

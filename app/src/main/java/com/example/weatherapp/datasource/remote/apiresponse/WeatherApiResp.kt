@@ -17,6 +17,8 @@ data class WeatherApiResp(
     val wind: WindEntity,
     @Json(name = "sys")
     val sunTimes: SunTimesEntity,
+    @Json(name = "name")
+    val cityName: String,
     @Json(name = "timezone")
     val timezoneInSeconds: Int
 ) {
@@ -26,7 +28,7 @@ data class WeatherApiResp(
     )
 
     data class WindEntity(val speed: Double)
-    data class SunTimesEntity(val sunrise: Calendar, val sunset: Calendar)
+    data class SunTimesEntity(val sunrise: Calendar, val sunset: Calendar, val country: String)
     data class MainWeatherEntity(
         val temp: Double,
         @Json(name = "temp_min") val tempMin: Double,

@@ -1,6 +1,9 @@
 package com.example.weatherapp.viewmodel
 
 import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.weatherapp.MyApplication
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.WeatherFetchState
 import com.example.weatherapp.repository.WeatherRepository
@@ -19,26 +22,35 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository): ViewModel() 
     }
 
     fun updateSelectedCity(newCity: City) {
-        weatherRepo.setSelectedCity(newCity)
-        refreshWeather()
+        weatherRepo.selectedCity = newCity
+        refreshWeather(true)
     }
 
-    fun refreshWeather() {
+    fun refreshWeather(forceRemoteFetch: Boolean = false) {
         viewModelScope.launch {
             try {
                 _weatherFetchState.value = WeatherFetchState.Loading
-                val res = weatherRepo.getWeather()
+                val res = weatherRepo.getWeather(forceRemoteFetch)
                 _weatherFetchState.value = WeatherFetchState.Success(res)
             } catch (e: Exception) {
                 _weatherFetchState.value = WeatherFetchState.Error(e)
             }
         }
     }
-    fun getSelectedCity() = weatherRepo.getSelectedCity()
+    fun getSelectedCity() = weatherRepo.selectedCity
 
-    class Factory(private val weatherRepo: WeatherRepository): ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return WeatherViewModel(weatherRepo) as T
+    // Define ViewModel factory in a companion object
+    companion object {
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                // Get the Application object from extras
+                val application = checkNotNull(extras[APPLICATION_KEY])
+                return WeatherViewModel((application as MyApplication).weatherRepository) as T
+            }
         }
     }
 }

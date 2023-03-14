@@ -5,10 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import com.example.weatherapp.MyApplication
 import com.example.weatherapp.R
+import com.example.weatherapp.databinding.FragmentWeatherBinding
+import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
+import com.example.weatherapp.viewmodel.WeatherViewModel
 
 class WeatherDetailsFragment : Fragment() {
 
+    private lateinit var binding: FragmentWeatherDetailsBinding
+
+    private val viewModel: WeatherViewModel by activityViewModels { WeatherViewModel.Factory }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -16,8 +25,9 @@ class WeatherDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weather_details, container, false)
+    ): View {
+
+        binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 }

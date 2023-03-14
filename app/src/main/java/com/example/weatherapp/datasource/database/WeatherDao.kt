@@ -24,9 +24,9 @@ import androidx.room.*
 interface WeatherDao {
 
     @Query("SELECT * FROM weather WHERE city_id = :id")
-    fun findWeatherByCityId(id: String): WeatherDBEntity?
+    fun findWeatherByCityId(id: String): WeatherDBEntity
 
-    @Query("SELECT last_remote_fetch FROM weather WHERE city_id: id")
+    @Query("SELECT last_remote_fetch FROM weather WHERE city_id = :id")
     fun findLastRemoteFetchByCityId(id: String): Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
