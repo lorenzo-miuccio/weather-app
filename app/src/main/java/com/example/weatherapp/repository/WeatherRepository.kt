@@ -8,9 +8,12 @@ import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.citiesList
 import java.util.*
 
-class WeatherRepository(private val api: WeatherApiService, private val keyValueDatasource: CityKeyValueDatasource) {
-    suspend fun getWeatherByCityId(cityId: String): Weather =
-        api.getWeatherByCityId(cityId).toEntity()
+class WeatherRepository(
+    private val api: WeatherApiService,
+    private val keyValueDatasource: CityKeyValueDatasource
+) {
+    suspend fun getWeather(): Weather =
+        api.getWeatherByCityId(getSelectedCity().id).toEntity()
 
     fun setSelectedCity(city: City) {
         keyValueDatasource.setSelectedCity(city.id)
@@ -28,7 +31,7 @@ class WeatherRepository(private val api: WeatherApiService, private val keyValue
 }
 
 private fun WeatherApiResp.toEntity(): Weather {
-    val iconPath = "http://openweathermap.org/img/wn/" + weather[0].iconPath + "@2x.png"
+    val iconPath = "https://openweathermap.org/img/wn/" + weather[0].iconPath + "@2x.png"
 
     sunTimes.sunrise.add(Calendar.SECOND, timezoneInSeconds)
     sunTimes.sunset.add(Calendar.SECOND, timezoneInSeconds)
