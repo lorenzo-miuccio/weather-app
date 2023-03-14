@@ -8,12 +8,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.example.weatherapp.MyApplication
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
 import com.example.weatherapp.model.City
@@ -26,7 +24,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 
 
-class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentWeatherBinding
 
     private val viewModel: WeatherViewModel by activityViewModels { WeatherViewModel.Factory }
@@ -51,27 +49,35 @@ class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         binding.weather.weatherImage.setOnClickListener {
             findNavController().navigate(R.id.action_weatherFragment_to_weatherDetailsFragment)
+            viewModel.refreshWeather(true)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.weatherFetchState.collect { fetchState ->
-                    when (fetchState) {
-                        is WeatherFetchState.Loading -> {
-                            binding.progressIndicator.visibility = View.VISIBLE
-                            binding.weather.weatherData.visibility = View.GONE
-                            binding.error.visibility = View.GONE
-                        }
-                        is WeatherFetchState.Success -> {
-                            binding.progressIndicator.visibility = View.GONE
-                            binding.weather.weatherData.visibility = View.VISIBLE
-                            binding.error.visibility = View.GONE
-                            bindWeatherDataViews(fetchState.weather)
-                        }
-                        is WeatherFetchState.Error -> {
-                            binding.progressIndicator.visibility = View.GONE
-                            binding.weather.weatherData.visibility = View.GONE
-                            binding.error.visibility = View.VISIBLE
+
+                    binding.apply {
+                        val progressIndicator = loading.progressIndicator
+                        val weatherData = weather.weatherData
+                        val imageError= error.imageError
+
+                        when (fetchState) {
+                            is WeatherFetchState.Loading -> {
+                                progressIndicator.visibility = View.VISIBLE
+                                weatherData.visibility = View.GONE
+                                imageError.visibility = View.GONE
+                            }
+                            is WeatherFetchState.Success -> {
+                                progressIndicator.visibility = View.GONE
+                                weatherData.visibility = View.VISIBLE
+                                imageError.visibility = View.GONE
+                                bindWeatherDataViews(fetchState.weather)
+                            }
+                            is WeatherFetchState.Error -> {
+                                progressIndicator.visibility = View.GONE
+                                weatherData.visibility = View.GONE
+                                imageError.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }

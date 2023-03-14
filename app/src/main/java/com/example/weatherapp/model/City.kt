@@ -6,6 +6,6 @@ data class City(val name: String, val countryId: String) {
     get() = "$name, $countryId"
 
     override fun toString(): String {
-        return id
+        return name
     }
 }

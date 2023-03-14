@@ -4,32 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WeatherFragment">
+    tools:context=".ui.WeatherMainFragment">
 
     <include
         android:id="@+id/weather"
         layout="@layout/weather_data"
         android:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/progress_indicator"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
+    <include
         android:id="@+id/error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:padding="40dp"
-        android:src="@drawable/no_wifi"
-        tools:text="Error"
-        android:contentDescription="weather image" />
+        layout="@layout/no_connection_error"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/progress_indicator"
+        />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
