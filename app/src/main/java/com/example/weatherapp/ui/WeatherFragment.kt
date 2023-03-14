@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.MyApplication
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
@@ -49,6 +50,10 @@ class WeatherFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
 
         setupSpinner()
+
+        binding.weather.weatherImage.setOnClickListener {
+            findNavController().navigate(R.id.action_weatherFragment_to_weatherDetailsFragment)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

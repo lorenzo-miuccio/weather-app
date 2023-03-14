@@ -1,7 +1,7 @@
 package com.example.weatherapp.datasource
 
-import com.example.weatherapp.datasource.apiresponse.DateAdapter
-import com.example.weatherapp.datasource.apiresponse.WeatherApiResp
+import com.example.weatherapp.datasource.remote.apiresponse.DateAdapter
+import com.example.weatherapp.datasource.remote.apiresponse.WeatherApiResp
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit

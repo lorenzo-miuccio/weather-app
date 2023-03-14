@@ -1,4 +1,4 @@
-package com.example.weatherapp.datasource.apiresponse
+package com.example.weatherapp.datasource.remote.apiresponse
 
 import android.util.Log
 import com.squareup.moshi.FromJson
@@ -20,21 +20,29 @@ data class WeatherApiResp(
     @Json(name = "timezone")
     val timezoneInSeconds: Int
 ) {
-    data class WeatherDescriptionEntity(@Json(name = "icon") val iconPath: String)
+    data class WeatherDescriptionEntity(
+        @Json(name = "icon") val iconPath: String,
+        @Json(name = "main") val description: String
+    )
+
     data class WindEntity(val speed: Double)
-    data class SunTimesEntity(@Date val sunrise: Calendar, @Date val sunset: Calendar)
-    data class MainWeatherEntity(val temp: Double, val humidity: Int)
+    data class SunTimesEntity(val sunrise: Calendar, val sunset: Calendar)
+    data class MainWeatherEntity(
+        val temp: Double,
+        @Json(name = "temp_min") val tempMin: Double,
+        @Json(name = "temp_max") val tempMax: Double,
+        val humidity: Int
+    )
 }
 
 
 internal class DateAdapter {
     @ToJson
-    fun toJson(@Date dateTime: Calendar): Long {
+    fun toJson(dateTime: Calendar): Long {
         return dateTime.timeInMillis
     }
 
     @FromJson
-    @Date
     fun fromJson(secondsSinceEpoch: Long): Calendar {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.timeInMillis = secondsSinceEpoch * 1000

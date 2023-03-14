@@ -2,7 +2,7 @@ package com.example.weatherapp.repository
 
 import com.example.weatherapp.datasource.CityKeyValueDatasource
 import com.example.weatherapp.datasource.WeatherApiService
-import com.example.weatherapp.datasource.apiresponse.WeatherApiResp
+import com.example.weatherapp.datasource.remote.apiresponse.WeatherApiResp
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.citiesList
@@ -25,7 +25,6 @@ class WeatherRepository(
         val selectedCity = citiesList.firstOrNull {
             it.id == cityId
         }
-
         return selectedCity ?: citiesList[0]
     }
 }
@@ -39,6 +38,9 @@ private fun WeatherApiResp.toEntity(): Weather {
     return Weather(
         iconPath = iconPath,
         temperature = main.temp,
+        tempMin = main.tempMin,
+        description = weather[0].description,
+        tempMax = main.tempMax,
         humidity = main.humidity,
         windSpeed = wind.speed * 3.6,
         sunrise = sunTimes.sunrise,
