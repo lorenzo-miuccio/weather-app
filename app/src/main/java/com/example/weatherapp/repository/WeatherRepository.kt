@@ -9,6 +9,7 @@ import com.example.weatherapp.datasource.remote.apiresponse.WeatherApiResp
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.citiesList
+import kotlinx.coroutines.CoroutineScope
 import java.util.*
 
 private const val VALIDITY_IN_MILLISECONDS: Long = 15000
@@ -31,6 +32,14 @@ class WeatherRepository(
         set(city) = keyValueDatasource.setSelectedCity(city.id)
 
 
+    val millisecondsSinceLastFetch: Long
+        get() {
+            val lastFetchInMilliseconds =
+                weatherLocalDatasource.getLastRemoteFetch(selectedCity.id) ?: 0
+            return System.currentTimeMillis() - lastFetchInMilliseconds
+        }
+
+
     suspend fun getWeather(forceRemoteFetch: Boolean): Weather {
         if (isDataValid() && !forceRemoteFetch) {
             return getWeatherFromDatabase()
@@ -45,12 +54,8 @@ class WeatherRepository(
     private suspend fun getWeatherRespFromApi(): WeatherApiResp =
         weatherRemoteDatasource.getWeatherByCityId(selectedCity.id)
 
-    private fun isDataValid(): Boolean {
-        val lastFetchInMilliseconds =
-            weatherLocalDatasource.getLastRemoteFetch(selectedCity.id) ?: 0
+    private fun isDataValid() = millisecondsSinceLastFetch < VALIDITY_IN_MILLISECONDS
 
-        return (System.currentTimeMillis() - lastFetchInMilliseconds) < VALIDITY_IN_MILLISECONDS
-    }
 }
 
 private fun WeatherApiResp.toDBEntity(): WeatherDBEntity {

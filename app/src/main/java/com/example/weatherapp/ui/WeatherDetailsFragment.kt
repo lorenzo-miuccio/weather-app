@@ -77,7 +77,7 @@ class WeatherDetailsFragment : Fragment() {
             tempMax.text = "${weather.tempMax} °C"
             tempMin.text = "${weather.tempMin} °C"
             weatherDescription.text = "${weather.description}"
-            cityName.text = viewModel.getSelectedCity().name
+            cityName.text = viewModel.getSelectedCity().id
             Picasso.get().load(weather.iconPath).into(weatherImageDetails)
         }
     }

@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
-import com.example.weatherapp.databinding.FragmentWeatherBinding
+import com.example.weatherapp.databinding.FragmentWeatherMainBinding
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.WeatherFetchState
@@ -21,11 +21,12 @@ import com.example.weatherapp.model.citiesList
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
+import java.text.Format
 import java.text.SimpleDateFormat
 
 
 class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
-    private lateinit var binding: FragmentWeatherBinding
+    private lateinit var binding: FragmentWeatherMainBinding
 
     private val viewModel: WeatherViewModel by activityViewModels { WeatherViewModel.Factory }
 
@@ -38,7 +39,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentWeatherBinding.inflate(inflater, container, false)
+        binding = FragmentWeatherMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -71,7 +72,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
                                 progressIndicator.visibility = View.GONE
                                 weatherData.visibility = View.VISIBLE
                                 imageError.visibility = View.GONE
-                                bindWeatherDataViews(fetchState.weather)
+                                bindWeatherDataViews(fetchState.weather, fetchState.secondsSinceLastFetch)
                             }
                             is WeatherFetchState.Error -> {
                                 progressIndicator.visibility = View.GONE
@@ -110,7 +111,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun bindWeatherDataViews(weather: Weather) {
+    private fun bindWeatherDataViews(weather: Weather, secondsSinceLastFetch: Int) {
         binding.weather.apply {
             temperature.text = "${weather.temperature} °C"
             windSpeed.text = "${String.format("%.2f", weather.windSpeed)} km/h"
@@ -118,6 +119,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
             sunsetTime.text = format.format(weather.sunset.time)
             sunriseTime.text = format.format(weather.sunrise.time)
             humidity.text = "${weather.humidity} %"
+            lastRemoteFetch.text = "Last update = $secondsSinceLastFetch"
             Picasso.get().load(weather.iconPath).into(binding.weather.weatherImage)
         }
     }

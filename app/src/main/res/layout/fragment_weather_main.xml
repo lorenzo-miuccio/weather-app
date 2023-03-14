@@ -13,13 +13,11 @@
 
     <include
         android:id="@+id/error"
-        layout="@layout/no_connection_error"
-        android:visibility="gone"/>
+        layout="@layout/no_connection_error" />
 
     <include
         android:id="@+id/loading"
-        layout="@layout/progress_indicator"
-        />
+        layout="@layout/progress_indicator" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -5,7 +5,7 @@
     </style>
 
     <style name="FontDetails" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 </resources>
