@@ -1,11 +1,11 @@
-package com.example.weatherapp.data.service
+package com.example.weatherapp.data.datasource
 
 import android.content.SharedPreferences
-import com.example.weatherapp.data.repository.datasource.CityKeyValueDatasource
+import com.example.weatherapp.data.repository.interfaces.CityKeyValueDataSource
 
 private const val CITY_KEY = "cityId"
 
-class CityKeyValueDatasourceImpl(private val prefs: SharedPreferences) : CityKeyValueDatasource {
+class CityKeyValueDataSourceImpl(private val prefs: SharedPreferences) : CityKeyValueDataSource {
 
     override fun setSelectedCity(cityId: String) {
         prefs.edit().putString(CITY_KEY, cityId).apply()

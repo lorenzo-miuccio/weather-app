@@ -1,13 +1,10 @@
 package com.example.weatherapp.data.repository
 
-import com.example.weatherapp.data.repository.datasource.CityKeyValueDatasource
-import com.example.weatherapp.data.repository.datasource.WeatherLocalDatasource
-import com.example.weatherapp.data.repository.datasource.WeatherRemoteDatasource
-import com.example.weatherapp.data.service.CityKeyValueDatasourceImpl
-import com.example.weatherapp.data.service.database.WeatherDBEntity
-import com.example.weatherapp.data.service.database.WeatherLocalDatasourceImpl
-import com.example.weatherapp.data.service.remote.WeatherRemoteDatasourceImpl
-import com.example.weatherapp.data.service.remote.apiresponse.WeatherApiResp
+import com.example.weatherapp.data.repository.interfaces.CityKeyValueDataSource
+import com.example.weatherapp.data.repository.interfaces.WeatherLocalDataSource
+import com.example.weatherapp.data.repository.interfaces.WeatherRemoteDataSource
+import com.example.weatherapp.data.datasource.database.WeatherDBEntity
+import com.example.weatherapp.data.datasource.remote.apiresponse.WeatherApiResp
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.citiesList
@@ -16,9 +13,9 @@ import java.util.*
 private const val VALIDITY_IN_MILLISECONDS: Long = 15000
 
 class WeatherRepository(
-    private val weatherRemoteDatasource: WeatherRemoteDatasource,
-    private val weatherLocalDatasource: WeatherLocalDatasource,
-    private val keyValueDatasource: CityKeyValueDatasource
+    private val weatherRemoteDatasource: WeatherRemoteDataSource,
+    private val weatherLocalDatasource: WeatherLocalDataSource,
+    private val keyValueDatasource: CityKeyValueDataSource
 ) {
 
     var selectedCity: City

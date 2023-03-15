@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.service.remote.apiresponse
+package com.example.weatherapp.data.datasource.remote.apiresponse
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Json

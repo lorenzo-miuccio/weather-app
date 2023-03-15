@@ -1,8 +1,8 @@
-package com.example.weatherapp.data.service.database
+package com.example.weatherapp.data.datasource.database
 
-import com.example.weatherapp.data.repository.datasource.WeatherLocalDatasource
+import com.example.weatherapp.data.repository.interfaces.WeatherLocalDataSource
 
-class WeatherLocalDatasourceImpl(private val weatherDao: WeatherDao): WeatherLocalDatasource {
+class WeatherLocalDataSourceImpl(private val weatherDao: WeatherDao): WeatherLocalDataSource {
     override fun getWeatherByCityId(cityId: String): WeatherDBEntity = weatherDao.findWeatherByCityId(cityId)
 
     override fun insertWeather(weather: WeatherDBEntity) = weatherDao.insertWeather(weather)

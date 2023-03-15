@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.weatherapp.data.service.database
+package com.example.weatherapp.data.datasource.database
 
 import androidx.room.*
 
