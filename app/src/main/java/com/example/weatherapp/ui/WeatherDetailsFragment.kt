@@ -62,7 +62,6 @@ class WeatherDetailsFragment : Fragment(), PageContentUtil {
                             weatherDetailsDataView,
                             imageErrorView,
                             fetchState,
-                            ::bindWeatherDataViews
                         )
                     }
                 }
@@ -76,6 +75,16 @@ class WeatherDetailsFragment : Fragment(), PageContentUtil {
     }
 
     private fun bindWeatherDataViews(weather: Weather) {
+        binding.apply {
+            tempMax.text = "${weather.tempMax} °C"
+            tempMin.text = "${weather.tempMin} °C"
+            weatherDescription.text = "${weather.description}"
+            cityName.text = viewModel.getSelectedCity().id
+            Picasso.get().load(weather.iconPath).into(weatherImageDetails)
+        }
+    }
+
+    override fun bindView(weather: Weather) {
         binding.apply {
             tempMax.text = "${weather.tempMax} °C"
             tempMin.text = "${weather.tempMin} °C"

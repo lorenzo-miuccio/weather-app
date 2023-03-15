@@ -16,6 +16,7 @@
 package com.example.weatherapp.data.datasource.database
 
 import androidx.room.*
+import com.example.weatherapp.data.repository.entity.WeatherDBEntity
 
 /**
  * Data Access Object for database interaction.

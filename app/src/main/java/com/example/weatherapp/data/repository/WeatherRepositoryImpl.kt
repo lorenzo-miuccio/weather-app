@@ -1,7 +1,7 @@
 package com.example.weatherapp.data.repository
 
-import com.example.weatherapp.data.datasource.database.WeatherDBEntity
-import com.example.weatherapp.data.datasource.remote.apiresponse.WeatherApiResp
+import com.example.weatherapp.data.repository.entity.WeatherDBEntity
+import com.example.weatherapp.data.repository.entity.WeatherApiResp
 import com.example.weatherapp.domain.WeatherRepository
 import com.example.weatherapp.data.repository.interfaces.WeatherLocalDataSource
 import com.example.weatherapp.data.repository.interfaces.WeatherRemoteDataSource
@@ -14,7 +14,6 @@ class WeatherRepositoryImpl(
     private val weatherRemoteDatasource: WeatherRemoteDataSource,
     private val weatherLocalDatasource: WeatherLocalDataSource,
 ) : WeatherRepository {
-
 
     override suspend fun getWeatherByCityId(cityId: String, forceRemoteFetch: Boolean): Weather {
         if (isCityDataValid(cityId) && !forceRemoteFetch) {

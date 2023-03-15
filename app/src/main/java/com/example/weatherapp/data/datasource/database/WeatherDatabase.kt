@@ -2,6 +2,7 @@ package com.example.weatherapp.data.datasource.database
 
 import android.content.Context
 import androidx.room.*
+import com.example.weatherapp.data.repository.entity.WeatherDBEntity
 import java.util.*
 
 @Database(entities = [WeatherDBEntity::class], version = 1)

@@ -6,12 +6,14 @@ import com.example.weatherapp.ui.state.WeatherFetchState
 
 
 interface PageContentUtil {
+
+    fun bindView(weather: Weather)
+
     fun setPageContent(
         loadingView: View,
         dataView: View,
         errorView: View,
         fetchState: WeatherFetchState,
-        bindView: (Weather) -> Unit
     ) {
         when (fetchState) {
             is WeatherFetchState.Loading -> {

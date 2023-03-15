@@ -62,7 +62,6 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener, Page
                             weatherDataView,
                             imageErrorView,
                             fetchState,
-                            ::bindWeatherDataViews
                         )
                     }
 
@@ -97,8 +96,15 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener, Page
         binding.weather.citySelector.onItemSelectedListener = this
     }
 
-    private fun bindWeatherDataViews(weather: Weather) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        val selectedCity = parent.getItemAtPosition(position) as City
+        viewModel.updateSelectedCity(selectedCity)
+    }
 
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+    }
+
+    override fun bindView(weather: Weather) {
         binding.weather.apply {
             temperature.text = "${weather.temperature} °C"
             windSpeed.text = "${String.format("%.2f", weather.windSpeed)} km/h"
@@ -109,13 +115,5 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener, Page
             lastRemoteFetch.text = getString(R.string.last_update, weather.secondsSinceLastFetch)
             Picasso.get().load(weather.iconPath).into(binding.weather.weatherImage)
         }
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        val selectedCity = parent.getItemAtPosition(position) as City
-        viewModel.updateSelectedCity(selectedCity)
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 }

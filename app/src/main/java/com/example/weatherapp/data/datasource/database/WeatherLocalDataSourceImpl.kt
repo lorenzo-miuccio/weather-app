@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.datasource.database
 
+import com.example.weatherapp.data.repository.entity.WeatherDBEntity
 import com.example.weatherapp.data.repository.interfaces.WeatherLocalDataSource
 
 class WeatherLocalDataSourceImpl(private val weatherDao: WeatherDao): WeatherLocalDataSource {

@@ -1,14 +1,9 @@
-package com.example.weatherapp.data.datasource.remote.apiresponse
+package com.example.weatherapp.data.repository.entity
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonQualifier
 import com.squareup.moshi.ToJson
 import java.util.*
-
-@Retention(AnnotationRetention.RUNTIME)
-@JsonQualifier
-annotation class Date
 
 data class WeatherApiResp(
     val weather: List<WeatherDescriptionEntity>,

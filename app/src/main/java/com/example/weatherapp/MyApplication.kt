@@ -2,7 +2,7 @@ package com.example.weatherapp
 
 import android.app.Application
 import com.example.weatherapp.data.repository.CityRepositoryImpl
-import com.example.weatherapp.data.datasource.CityKeyValueDataSourceImpl
+import com.example.weatherapp.data.datasource.CityDataSourceImpl
 import com.example.weatherapp.service.WeatherApi
 import com.example.weatherapp.data.datasource.database.WeatherDatabase
 import com.example.weatherapp.data.datasource.database.WeatherLocalDataSourceImpl
@@ -26,7 +26,7 @@ class MyApplication : Application() {
     val cityRepository: CityRepository by lazy {
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         return@lazy CityRepositoryImpl(
-            CityKeyValueDataSourceImpl(prefs)
+            CityDataSourceImpl(prefs)
         )
     }
 }

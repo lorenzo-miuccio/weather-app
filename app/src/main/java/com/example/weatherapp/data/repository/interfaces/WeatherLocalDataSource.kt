@@ -1,6 +1,6 @@
 package com.example.weatherapp.data.repository.interfaces
 
-import com.example.weatherapp.data.datasource.database.WeatherDBEntity
+import com.example.weatherapp.data.repository.entity.WeatherDBEntity
 
 interface WeatherLocalDataSource {
     fun getWeatherByCityId(cityId: String): WeatherDBEntity
