@@ -12,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
-import com.example.weatherapp.model.WeatherFetchState
+import com.example.weatherapp.domain.model.Weather
 import com.example.weatherapp.ui.util.PageContentUtil
-import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.example.weatherapp.ui.viewmodel.WeatherViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
@@ -75,8 +75,7 @@ class WeatherDetailsFragment : Fragment(), PageContentUtil {
         viewModel.refreshWeather()
     }
 
-    private fun bindWeatherDataViews(fetchDataState: WeatherFetchState.Success) {
-        val weather = fetchDataState.weather
+    private fun bindWeatherDataViews(weather: Weather) {
         binding.apply {
             tempMax.text = "${weather.tempMax} °C"
             tempMin.text = "${weather.tempMin} °C"

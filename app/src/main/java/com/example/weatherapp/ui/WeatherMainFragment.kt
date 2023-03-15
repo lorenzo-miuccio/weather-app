@@ -14,11 +14,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherMainBinding
-import com.example.weatherapp.model.City
-import com.example.weatherapp.model.WeatherFetchState
-import com.example.weatherapp.model.citiesList
+import com.example.weatherapp.domain.model.City
+import com.example.weatherapp.domain.model.Weather
+import com.example.weatherapp.domain.model.cityList
 import com.example.weatherapp.ui.util.PageContentUtil
-import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.example.weatherapp.ui.viewmodel.WeatherViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -78,7 +78,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener, Page
     private fun setupSpinner() {
 
         val adapter =
-            ArrayAdapter(requireContext(), R.layout.spinner_item, citiesList)
+            ArrayAdapter(requireContext(), R.layout.spinner_item, cityList)
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     // Apply the adapter to the spinner
@@ -97,9 +97,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener, Page
         binding.weather.citySelector.onItemSelectedListener = this
     }
 
-    private fun bindWeatherDataViews(fetchDataState: WeatherFetchState.Success) {
-        val weather = fetchDataState.weather
-        val secondsSinceLastFetch = fetchDataState.secondsSinceLastFetch
+    private fun bindWeatherDataViews(weather: Weather) {
 
         binding.weather.apply {
             temperature.text = "${weather.temperature} °C"
@@ -108,7 +106,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener, Page
             sunsetTime.text = format.format(weather.sunset.time)
             sunriseTime.text = format.format(weather.sunrise.time)
             humidity.text = "${weather.humidity} %"
-            lastRemoteFetch.text = getString(R.string.last_update, secondsSinceLastFetch)
+            lastRemoteFetch.text = getString(R.string.last_update, weather.secondsSinceLastFetch)
             Picasso.get().load(weather.iconPath).into(binding.weather.weatherImage)
         }
     }

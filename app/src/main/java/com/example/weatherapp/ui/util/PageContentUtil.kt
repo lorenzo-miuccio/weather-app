@@ -1,7 +1,8 @@
 package com.example.weatherapp.ui.util
 
 import android.view.View
-import com.example.weatherapp.model.WeatherFetchState
+import com.example.weatherapp.domain.model.Weather
+import com.example.weatherapp.ui.state.WeatherFetchState
 
 
 interface PageContentUtil {
@@ -10,7 +11,7 @@ interface PageContentUtil {
         dataView: View,
         errorView: View,
         fetchState: WeatherFetchState,
-        bindView: (WeatherFetchState.Success) -> Unit
+        bindView: (Weather) -> Unit
     ) {
         when (fetchState) {
             is WeatherFetchState.Loading -> {
@@ -22,7 +23,7 @@ interface PageContentUtil {
                 loadingView.visibility = View.GONE
                 dataView.visibility = View.VISIBLE
                 errorView.visibility = View.GONE
-                bindView(fetchState)
+                bindView(fetchState.weather)
             }
             is WeatherFetchState.Error -> {
                 loadingView.visibility = View.GONE

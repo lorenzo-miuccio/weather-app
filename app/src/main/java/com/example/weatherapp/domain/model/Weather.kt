@@ -1,4 +1,4 @@
-package com.example.weatherapp.model
+package com.example.weatherapp.domain.model
 
 import java.util.*
 
@@ -11,5 +11,6 @@ data class Weather(
     val windSpeed: Double,
     val humidity: Int,
     val sunrise: Calendar,
-    val sunset: Calendar
+    val sunset: Calendar,
+    val secondsSinceLastFetch: Int
 )

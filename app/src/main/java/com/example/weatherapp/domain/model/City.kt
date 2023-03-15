@@ -1,4 +1,4 @@
-package com.example.weatherapp.model
+package com.example.weatherapp.domain.model
 
 data class City(val name: String, val countryId: String) {
 
@@ -9,3 +9,10 @@ data class City(val name: String, val countryId: String) {
         return name
     }
 }
+
+val cityList = listOf(
+    City("Rome","IT"),
+    City("Bologna", "IT"),
+    City("Montreal", "CA"),
+    City("New York", "US"),
+)

@@ -1,18 +1,24 @@
-package com.example.weatherapp.viewmodel
+package com.example.weatherapp.ui.viewmodel
 
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.weatherapp.MyApplication
-import com.example.weatherapp.model.City
-import com.example.weatherapp.model.WeatherFetchState
-import com.example.weatherapp.data.repository.WeatherRepository
+import com.example.weatherapp.domain.model.City
+import com.example.weatherapp.domain.usecase.GetSelectedCityUS
+import com.example.weatherapp.domain.usecase.GetWeatherUseCase
+import com.example.weatherapp.domain.usecase.UpdateSelectedCityUS
+import com.example.weatherapp.ui.state.WeatherFetchState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class WeatherViewModel(private val weatherRepo: WeatherRepository) : ViewModel() {
+class WeatherViewModel(
+    private val getWeatherUS: GetWeatherUseCase,
+    private val getSelectedCityUS: GetSelectedCityUS,
+    private val updateSelectedCityUS: UpdateSelectedCityUS
+) : ViewModel() {
 
     private val _weatherFetchState: MutableStateFlow<WeatherFetchState> =
         MutableStateFlow(WeatherFetchState.Loading)
@@ -24,7 +30,7 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository) : ViewModel()
     }
 
     fun updateSelectedCity(newCity: City) {
-        weatherRepo.selectedCity = newCity
+        updateSelectedCityUS(newCity)
         refreshWeather(true)
     }
 
@@ -32,18 +38,15 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository) : ViewModel()
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _weatherFetchState.value = WeatherFetchState.Loading
-                val res = weatherRepo.getWeather(forceRemoteFetch)
-                _weatherFetchState.value = WeatherFetchState.Success(
-                    weather = res,
-                    secondsSinceLastFetch = (weatherRepo.millisecondsSinceLastFetch / 1000).toInt()
-                )
+                val res = getWeatherUS(forceRemoteFetch)
+                _weatherFetchState.value = WeatherFetchState.Success(res)
             } catch (e: Exception) {
                 _weatherFetchState.value = WeatherFetchState.Error(e)
             }
         }
     }
 
-    fun getSelectedCity() = weatherRepo.selectedCity
+    fun getSelectedCity() = getSelectedCityUS()
 
     // Define ViewModel factory in a companion object
     companion object {
@@ -54,8 +57,12 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository) : ViewModel()
                 extras: CreationExtras
             ): T {
                 // Get the Application object from extras
-                val application = checkNotNull(extras[APPLICATION_KEY])
-                return WeatherViewModel((application as MyApplication).weatherRepository) as T
+                val application = checkNotNull(extras[APPLICATION_KEY]) as MyApplication
+                return WeatherViewModel(
+                    GetWeatherUseCase(application.weatherRepository, application.cityRepository),
+                    GetSelectedCityUS(application.cityRepository),
+                    UpdateSelectedCityUS(application.cityRepository)
+                ) as T
             }
         }
     }
