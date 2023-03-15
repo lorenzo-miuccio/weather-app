@@ -35,7 +35,7 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository) : ViewModel()
                 val res = weatherRepo.getWeather(forceRemoteFetch)
                 _weatherFetchState.value = WeatherFetchState.Success(
                     weather = res,
-                    secondsSinceLastFetch = (weatherRepo.millisecondsSinceLastFetch * 1000).toInt()
+                    secondsSinceLastFetch = (weatherRepo.millisecondsSinceLastFetch / 1000).toInt()
                 )
             } catch (e: Exception) {
                 _weatherFetchState.value = WeatherFetchState.Error(e)
@@ -44,7 +44,6 @@ class WeatherViewModel(private val weatherRepo: WeatherRepository) : ViewModel()
     }
 
     fun getSelectedCity() = weatherRepo.selectedCity
-
 
     // Define ViewModel factory in a companion object
     companion object {

@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
+import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
 import com.example.weatherapp.databinding.FragmentWeatherMainBinding
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
@@ -29,10 +30,6 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentWeatherMainBinding
 
     private val viewModel: WeatherViewModel by activityViewModels { WeatherViewModel.Factory }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +88,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupSpinner() {
+
         val adapter =
             ArrayAdapter(requireContext(), R.layout.spinner_item, citiesList)
                 .also { adapter ->
@@ -99,16 +97,16 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     binding.weather.citySelector.adapter = adapter
                 }
 
-        binding.weather.citySelector.onItemSelectedListener = this
-
         val selectedCity = viewModel.getSelectedCity()
 
         for (index in 0 until adapter.count) {
             if (adapter.getItem(index) == selectedCity) {
-                binding.weather.citySelector.setSelection(index)
+                binding.weather.citySelector.setSelection(index, false)
                 break
             }
         }
+
+        binding.weather.citySelector.onItemSelectedListener = this
     }
 
     private fun bindWeatherDataViews(weather: Weather, secondsSinceLastFetch: Int) {
@@ -119,7 +117,7 @@ class WeatherMainFragment : Fragment(), AdapterView.OnItemSelectedListener {
             sunsetTime.text = format.format(weather.sunset.time)
             sunriseTime.text = format.format(weather.sunrise.time)
             humidity.text = "${weather.humidity} %"
-            lastRemoteFetch.text = "Last update = $secondsSinceLastFetch"
+            lastRemoteFetch.text = getString(R.string.last_update, secondsSinceLastFetch)
             Picasso.get().load(weather.iconPath).into(binding.weather.weatherImage)
         }
     }
