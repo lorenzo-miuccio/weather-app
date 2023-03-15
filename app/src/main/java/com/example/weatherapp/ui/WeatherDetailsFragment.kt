@@ -12,13 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.databinding.FragmentWeatherDetailsBinding
-import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.WeatherFetchState
+import com.example.weatherapp.ui.util.PageContentUtil
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
-class WeatherDetailsFragment : Fragment() {
+class WeatherDetailsFragment : Fragment(), PageContentUtil {
 
     private lateinit var binding: FragmentWeatherDetailsBinding
 
@@ -28,8 +28,7 @@ class WeatherDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            findNavController().popBackStack()
-            viewModel.refreshWeather()
+            onBack()
         }
     }
 
@@ -46,8 +45,7 @@ class WeatherDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.setOnClickListener {
-            findNavController().popBackStack()
-            viewModel.refreshWeather()
+            onBack()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -55,35 +53,30 @@ class WeatherDetailsFragment : Fragment() {
                 viewModel.weatherFetchState.collect { fetchState ->
 
                     binding.apply {
-                        val progressIndicator = loading.progressIndicator
-                        val weatherDetailsData = weatherDetailsData
-                        val imageError= error.imageError
+                        val progressIndicatorView = loading.progressIndicator
+                        val weatherDetailsDataView = weatherDetailsData
+                        val imageErrorView = error.imageError
 
-                        when (fetchState) {
-                            is WeatherFetchState.Loading -> {
-                                progressIndicator.visibility = View.VISIBLE
-                                weatherDetailsData.visibility = View.GONE
-                                imageError.visibility = View.GONE
-                            }
-                            is WeatherFetchState.Success -> {
-                                progressIndicator.visibility = View.GONE
-                                weatherDetailsData.visibility = View.VISIBLE
-                                imageError.visibility = View.GONE
-                                bindWeatherDataViews(fetchState.weather)
-                            }
-                            is WeatherFetchState.Error -> {
-                                progressIndicator.visibility = View.GONE
-                                weatherDetailsData.visibility = View.GONE
-                                imageError.visibility = View.VISIBLE
-                            }
-                        }
+                        setPageContent(
+                            progressIndicatorView,
+                            weatherDetailsDataView,
+                            imageErrorView,
+                            fetchState,
+                            ::bindWeatherDataViews
+                        )
                     }
                 }
             }
         }
     }
 
-    private fun bindWeatherDataViews(weather: Weather) {
+    private fun onBack() {
+        findNavController().popBackStack()
+        viewModel.refreshWeather()
+    }
+
+    private fun bindWeatherDataViews(fetchDataState: WeatherFetchState.Success) {
+        val weather = fetchDataState.weather
         binding.apply {
             tempMax.text = "${weather.tempMax} °C"
             tempMin.text = "${weather.tempMin} °C"

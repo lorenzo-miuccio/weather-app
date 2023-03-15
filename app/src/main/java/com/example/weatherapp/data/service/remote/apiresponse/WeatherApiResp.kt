@@ -1,6 +1,5 @@
-package com.example.weatherapp.datasource.remote.apiresponse
+package com.example.weatherapp.data.service.remote.apiresponse
 
-import android.util.Log
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonQualifier

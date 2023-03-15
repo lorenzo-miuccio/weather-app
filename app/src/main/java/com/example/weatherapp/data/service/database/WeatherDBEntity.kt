@@ -1,4 +1,4 @@
-package com.example.weatherapp.datasource.database
+package com.example.weatherapp.data.service.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

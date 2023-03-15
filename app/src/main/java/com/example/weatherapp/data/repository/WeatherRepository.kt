@@ -1,15 +1,16 @@
-package com.example.weatherapp.repository
+package com.example.weatherapp.data.repository
 
-import androidx.room.Database
-import com.example.weatherapp.datasource.CityKeyValueDatasource
-import com.example.weatherapp.datasource.database.WeatherDBEntity
-import com.example.weatherapp.datasource.database.WeatherLocalDatasource
-import com.example.weatherapp.datasource.remote.WeatherRemoteDatasource
-import com.example.weatherapp.datasource.remote.apiresponse.WeatherApiResp
+import com.example.weatherapp.data.repository.datasource.CityKeyValueDatasource
+import com.example.weatherapp.data.repository.datasource.WeatherLocalDatasource
+import com.example.weatherapp.data.repository.datasource.WeatherRemoteDatasource
+import com.example.weatherapp.data.service.CityKeyValueDatasourceImpl
+import com.example.weatherapp.data.service.database.WeatherDBEntity
+import com.example.weatherapp.data.service.database.WeatherLocalDatasourceImpl
+import com.example.weatherapp.data.service.remote.WeatherRemoteDatasourceImpl
+import com.example.weatherapp.data.service.remote.apiresponse.WeatherApiResp
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.citiesList
-import kotlinx.coroutines.CoroutineScope
 import java.util.*
 
 private const val VALIDITY_IN_MILLISECONDS: Long = 15000

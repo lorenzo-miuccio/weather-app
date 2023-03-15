@@ -6,7 +6,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.weatherapp.MyApplication
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.WeatherFetchState
-import com.example.weatherapp.repository.WeatherRepository
+import com.example.weatherapp.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
