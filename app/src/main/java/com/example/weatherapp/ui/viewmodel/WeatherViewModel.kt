@@ -36,13 +36,10 @@ class WeatherViewModel(
 
     fun refreshWeather(forceRemoteFetch: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
                 _weatherFetchState.value = WeatherFetchState.Loading
                 val res = getWeatherUS(forceRemoteFetch)
                 _weatherFetchState.value = WeatherFetchState.Success(res)
-            } catch (e: Exception) {
-                _weatherFetchState.value = WeatherFetchState.Error(e)
-            }
+
         }
     }
 
@@ -50,7 +47,7 @@ class WeatherViewModel(
 
     // Define ViewModel factory in a companion object
     companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        val Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(
                 modelClass: Class<T>,

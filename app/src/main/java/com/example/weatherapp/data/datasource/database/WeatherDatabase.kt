@@ -2,10 +2,9 @@ package com.example.weatherapp.data.datasource.database
 
 import android.content.Context
 import androidx.room.*
-import com.example.weatherapp.data.repository.entity.WeatherDBEntity
 import java.util.*
 
-@Database(entities = [WeatherDBEntity::class], version = 1)
+@Database(entities = [WeatherDBEntityImpl::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class WeatherDatabase : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
@@ -18,7 +17,7 @@ abstract class WeatherDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     WeatherDatabase::class.java,
-                    "weather_database"
+                    DatabaseContract.DATABASE_NAME
                 )
                     .fallbackToDestructiveMigration()
                     .build()

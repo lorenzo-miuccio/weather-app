@@ -24,7 +24,7 @@ class WeatherRepositoryImpl(
     }
 
     private fun getWeatherFromDatabase(cityId: String): Weather =
-        weatherLocalDatasource.getWeatherByCityId(cityId).toEntity()
+        weatherLocalDatasource.getWeatherByCityId(cityId).toWeatherModel()
 
     private suspend fun getWeatherRespFromApi(cityId: String): WeatherApiResp =
         weatherRemoteDatasource.getWeatherByCityId(cityId)
@@ -57,7 +57,7 @@ private fun WeatherApiResp.toDBEntity(): WeatherDBEntity {
     )
 }
 
-private fun WeatherDBEntity.toEntity() = Weather(
+private fun WeatherDBEntity.toWeatherModel() = Weather(
     iconPath = iconPath,
     temperature = temperature,
     tempMin = tempMin,

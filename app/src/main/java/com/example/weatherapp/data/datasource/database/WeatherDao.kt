@@ -24,12 +24,12 @@ import com.example.weatherapp.data.repository.entity.WeatherDBEntity
 @Dao
 interface WeatherDao {
 
-    @Query("SELECT * FROM weather WHERE city_id = :id")
-    fun findWeatherByCityId(id: String): WeatherDBEntity
+    @Query("SELECT * FROM ${DatabaseContract.TABLE_NAME} WHERE ${DatabaseContract.Columns.ID} = :id")
+    fun findWeatherByCityId(id: String): WeatherDBEntityImpl
 
-    @Query("SELECT last_remote_fetch FROM weather WHERE city_id = :id")
+    @Query("SELECT ${DatabaseContract.Columns.LAST_REMOTE_FETCH} FROM ${DatabaseContract.TABLE_NAME} WHERE ${DatabaseContract.Columns.ID} = :id")
     fun findLastRemoteFetchByCityId(id: String): Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertWeather(weather: WeatherDBEntity)
+    fun insertWeather(weather: WeatherDBEntityImpl)
 }

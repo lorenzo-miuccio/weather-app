@@ -1,28 +1,22 @@
 package com.example.weatherapp.data.repository.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.example.weatherapp.data.datasource.database.WeatherDBEntityImpl
 import java.util.*
 
-@Entity(tableName = "weather")
-class WeatherDBEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "city_id")
-    val cityId: String,
-    @ColumnInfo(name = "icon_path")
-    val iconPath: String,
-    val temperature: Double,
-    val description: String,
-    @ColumnInfo(name = "temp_min")
-    val tempMin: Double,
-    @ColumnInfo(name = "temp_max")
-    val tempMax: Double,
-    @ColumnInfo(name = "wind_speed")
-    val windSpeed: Double,
-    val humidity: Int,
-    @ColumnInfo(name = "last_remote_fetch")
-    val lastRemoteFetch: Long,
-    val sunrise: Calendar,
-    val sunset: Calendar,
-)
+open class WeatherDBEntity(
+    open val cityId: String,
+    open val iconPath: String,
+    open val temperature: Double,
+    open val description: String,
+    open val tempMin: Double,
+    open val tempMax: Double,
+    open val windSpeed: Double,
+    open val humidity: Int,
+    open val lastRemoteFetch: Long,
+    open val sunrise: Calendar,
+    open val sunset: Calendar
+) {
+    fun prova() {
+        print("ciao")
+    }
+}
