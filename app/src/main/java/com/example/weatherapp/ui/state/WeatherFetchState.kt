@@ -5,5 +5,5 @@ import com.example.weatherapp.domain.model.Weather
 sealed class WeatherFetchState {
     class Success(val weather: Weather): WeatherFetchState()
     object Loading : WeatherFetchState()
-    class Error(exception: Exception): WeatherFetchState()
+    class Error(val exception: Exception): WeatherFetchState()
 }
